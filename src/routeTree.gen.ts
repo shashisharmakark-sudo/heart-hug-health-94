@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WinsRouteImport } from './routes/wins'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RemindersRouteImport } from './routes/reminders'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const WinsRoute = WinsRouteImport.update({
   id: '/wins',
   path: '/wins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RemindersRoute = RemindersRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/reminders': typeof RemindersRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wins': typeof WinsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/reminders': typeof RemindersRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wins': typeof WinsRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/reminders': typeof RemindersRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wins': typeof WinsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/privacy' | '/reminders' | '/wins'
+  fullPaths: '/' | '/privacy' | '/reminders' | '/sitemap.xml' | '/wins'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy' | '/reminders' | '/wins'
-  id: '__root__' | '/' | '/privacy' | '/reminders' | '/wins'
+  to: '/' | '/privacy' | '/reminders' | '/sitemap.xml' | '/wins'
+  id: '__root__' | '/' | '/privacy' | '/reminders' | '/sitemap.xml' | '/wins'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrivacyRoute: typeof PrivacyRoute
   RemindersRoute: typeof RemindersRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WinsRoute: typeof WinsRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/wins'
       fullPath: '/wins'
       preLoaderRoute: typeof WinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reminders': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivacyRoute: PrivacyRoute,
   RemindersRoute: RemindersRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   WinsRoute: WinsRoute,
 }
 export const routeTree = rootRouteImport
