@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles, Heart } from "lucide-react";
 import { useReminders } from "@/lib/reminders";
 
-export const Route = createFileRoute("/wins")({
+export const Route = createFileRoute("/_authenticated/wins")({
   component: WinsPage,
 });
 
@@ -16,9 +16,7 @@ function WinsPage() {
         <Sparkles className="mx-auto h-7 w-7 text-primary-foreground" />
         <h1 className="mt-3 font-display text-4xl font-semibold text-primary-foreground">Small wins, big love</h1>
         <p className="mt-2 text-primary-foreground/90">
-          {completedToday === 0
-            ? "Today is open and waiting — no pressure, no rush."
-            : `${completedToday} of ${total} cared for today. That's beautiful.`}
+          {completedToday === 0 ? "Today is open and waiting — no rush." : `${completedToday} of ${total} cared for today.`}
         </p>
       </div>
 
@@ -27,9 +25,6 @@ function WinsPage() {
           <div className="rounded-2xl border border-dashed border-primary/30 bg-card/60 p-10 text-center">
             <Heart className="mx-auto h-6 w-6 text-primary" fill="currentColor" />
             <p className="mt-3 font-display text-lg text-foreground">Your wins will gather here 🌸</p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Tick a reminder when you're ready — we'll cheer for you.
-            </p>
           </div>
         ) : (
           completed.map((r) => (

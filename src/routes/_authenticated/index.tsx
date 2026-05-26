@@ -4,21 +4,22 @@ import { Sparkles, Heart, Sun } from "lucide-react";
 import { ReminderCard } from "@/components/ReminderCard";
 import { useReminders, warmGreeting, warmSubline } from "@/lib/reminders";
 import { Progress } from "@/components/ui/progress";
+import { useAuth } from "@/hooks/use-auth";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   component: Today,
 });
 
 function Today() {
+  const { user } = useAuth();
   const { reminders, hydrated, toggleComplete, upcoming, completed, completedToday, total } = useReminders();
 
-  const greeting = useMemo(() => warmGreeting(), []);
+  const name = (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0];
+  const greeting = useMemo(() => warmGreeting(name), [name]);
   const subline = warmSubline(completedToday, total);
   const pct = total ? Math.round((completedToday / total) * 100) : 0;
 
-  if (!hydrated) {
-    return <div className="p-8 text-muted-foreground">Getting your space ready…</div>;
-  }
+  if (!hydrated) return <div className="p-8 text-muted-foreground">Getting your space ready…</div>;
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-8 md:px-8 md:py-12">
@@ -28,12 +29,9 @@ function Today() {
             <div className="inline-flex items-center gap-2 rounded-full bg-gradient-blossom px-3 py-1 text-xs font-medium text-foreground/70 shadow-petal">
               <Sun className="h-3.5 w-3.5" /> Today, gently
             </div>
-            <h1 className="mt-4 font-display text-4xl font-semibold text-foreground md:text-5xl">
-              {greeting}
-            </h1>
+            <h1 className="mt-4 font-display text-4xl font-semibold text-foreground md:text-5xl">{greeting}</h1>
             <p className="mt-3 text-base text-muted-foreground md:text-lg">{subline}</p>
           </div>
-
           <div className="w-full max-w-xs rounded-2xl bg-gradient-blossom p-5 shadow-petal">
             <div className="flex items-center justify-between text-sm">
               <span className="flex items-center gap-1.5 font-medium text-foreground">
@@ -62,9 +60,7 @@ function Today() {
           </div>
         ) : (
           <div className="grid gap-3">
-            {upcoming.map((r) => (
-              <ReminderCard key={r.id} reminder={r} onToggle={toggleComplete} />
-            ))}
+            {upcoming.map((r) => <ReminderCard key={r.id} reminder={r} onToggle={toggleComplete} />)}
           </div>
         )}
       </section>
@@ -76,17 +72,14 @@ function Today() {
             <span className="text-sm text-muted-foreground">{completed.length} today</span>
           </header>
           <div className="grid gap-3">
-            {completed.map((r) => (
-              <ReminderCard key={r.id} reminder={r} onToggle={toggleComplete} />
-            ))}
+            {completed.map((r) => <ReminderCard key={r.id} reminder={r} onToggle={toggleComplete} />)}
           </div>
         </section>
       )}
 
       <p className="mt-12 text-center text-xs text-muted-foreground">
-        Your reminders stay on this device. Always private, always yours 💙
+        Always private, always yours 💙
       </p>
-      {/* keep ref to total reminders so eslint doesn't trim */}
       <span className="hidden">{reminders.length}</span>
     </div>
   );
