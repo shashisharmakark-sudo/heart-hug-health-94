@@ -1,23 +1,17 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Heart, Home, Bell, Sparkles, Shield } from "lucide-react";
+import { Heart, Home, Bell, Sparkles, Shield, Pill, LogOut } from "lucide-react";
 
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
+  SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { signOut } from "@/hooks/use-auth";
 
 const items = [
   { title: "Today", url: "/", icon: Home },
   { title: "Reminders", url: "/reminders", icon: Bell },
+  { title: "Medicines", url: "/medicines", icon: Pill },
   { title: "Small wins", url: "/wins", icon: Sparkles },
   { title: "Privacy", url: "/privacy", icon: Shield },
 ];
@@ -59,6 +53,12 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => signOut()} className="rounded-xl">
+                  <LogOut className="h-4 w-4" />
+                  {!collapsed && <span>Sign out</span>}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -67,10 +67,8 @@ export function AppSidebar() {
       {!collapsed && (
         <SidebarFooter className="p-3">
           <div className="rounded-2xl bg-gradient-blossom p-3 text-xs text-foreground/80 shadow-petal">
-            <p className="font-medium">You're doing beautifully today 💙</p>
-            <p className="mt-1 text-[11px] text-muted-foreground">
-              Take a breath. We're here whenever you need us.
-            </p>
+            <p className="font-medium">You're doing beautifully 💙</p>
+            <p className="mt-1 text-[11px] text-muted-foreground">We're here whenever you need us.</p>
           </div>
         </SidebarFooter>
       )}
