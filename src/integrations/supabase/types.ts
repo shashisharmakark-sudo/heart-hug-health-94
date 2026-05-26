@@ -14,7 +14,175 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      medicines: {
+        Row: {
+          color: string | null
+          created_at: string
+          dosage: string | null
+          expires_on: string | null
+          id: string
+          instructions: string | null
+          is_active: boolean
+          name: string
+          prescription_image_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          dosage?: string | null
+          expires_on?: string | null
+          id?: string
+          instructions?: string | null
+          is_active?: boolean
+          name: string
+          prescription_image_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          dosage?: string | null
+          expires_on?: string | null
+          id?: string
+          instructions?: string | null
+          is_active?: boolean
+          name?: string
+          prescription_image_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          allergies: string | null
+          avatar_url: string | null
+          conditions: string | null
+          created_at: string
+          date_of_birth: string | null
+          display_name: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          id: string
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          allergies?: string | null
+          avatar_url?: string | null
+          conditions?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          display_name?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          id: string
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          allergies?: string | null
+          avatar_url?: string | null
+          conditions?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          display_name?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          id?: string
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reminder_logs: {
+        Row: {
+          done_at: string
+          done_on: string
+          id: string
+          reminder_id: string
+          user_id: string
+        }
+        Insert: {
+          done_at?: string
+          done_on?: string
+          id?: string
+          reminder_id: string
+          user_id: string
+        }
+        Update: {
+          done_at?: string
+          done_on?: string
+          id?: string
+          reminder_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminder_logs_reminder_id_fkey"
+            columns: ["reminder_id"]
+            isOneToOne: false
+            referencedRelation: "reminders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reminders: {
+        Row: {
+          created_at: string
+          date_of_event: string | null
+          detail: string | null
+          id: string
+          is_active: boolean
+          kind: Database["public"]["Enums"]["reminder_kind"]
+          medicine_id: string | null
+          repeat: Database["public"]["Enums"]["reminder_repeat"]
+          time_of_day: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date_of_event?: string | null
+          detail?: string | null
+          id?: string
+          is_active?: boolean
+          kind?: Database["public"]["Enums"]["reminder_kind"]
+          medicine_id?: string | null
+          repeat?: Database["public"]["Enums"]["reminder_repeat"]
+          time_of_day?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date_of_event?: string | null
+          detail?: string | null
+          id?: string
+          is_active?: boolean
+          kind?: Database["public"]["Enums"]["reminder_kind"]
+          medicine_id?: string | null
+          repeat?: Database["public"]["Enums"]["reminder_repeat"]
+          time_of_day?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_medicine_id_fkey"
+            columns: ["medicine_id"]
+            isOneToOne: false
+            referencedRelation: "medicines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +191,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      reminder_kind:
+        | "medication"
+        | "water"
+        | "movement"
+        | "rest"
+        | "nourish"
+        | "checkin"
+        | "appointment"
+      reminder_repeat: "none" | "daily" | "weekdays" | "weekly"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +326,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      reminder_kind: [
+        "medication",
+        "water",
+        "movement",
+        "rest",
+        "nourish",
+        "checkin",
+        "appointment",
+      ],
+      reminder_repeat: ["none", "daily", "weekdays", "weekly"],
+    },
   },
 } as const
