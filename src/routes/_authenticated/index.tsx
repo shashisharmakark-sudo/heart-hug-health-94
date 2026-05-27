@@ -14,6 +14,7 @@ export const Route = createFileRoute("/_authenticated/")({
 function Today() {
   const { user } = useAuth();
   const { reminders, hydrated, toggleComplete, upcoming, completed, completedToday, total } = useReminders();
+  useReminderNotifications(reminders);
 
   const name = (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0];
   const greeting = useMemo(() => warmGreeting(name), [name]);
