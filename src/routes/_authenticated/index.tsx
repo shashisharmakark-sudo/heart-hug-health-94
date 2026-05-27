@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { Sparkles, Heart, Sun } from "lucide-react";
 import { ReminderCard } from "@/components/ReminderCard";
 import { NotificationPrompt } from "@/components/NotificationPrompt";
+import { QuickWins, useQuickWinsTotal } from "@/components/QuickWins";
 import { useReminders, useReminderNotifications, warmGreeting, warmSubline } from "@/lib/reminders";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/hooks/use-auth";
@@ -15,6 +16,7 @@ function Today() {
   const { user } = useAuth();
   const { reminders, hydrated, toggleComplete, upcoming, completed, completedToday, total } = useReminders();
   useReminderNotifications(reminders);
+  const quickTotal = useQuickWinsTotal();
 
   const name = (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0];
   const greeting = useMemo(() => warmGreeting(name), [name]);
@@ -46,9 +48,14 @@ function Today() {
             <p className="mt-3 text-xs text-foreground/70">
               {pct === 100 ? "All loved on. Rest is part of healing too." : "No pressure — your pace is the right pace."}
             </p>
+            {quickTotal > 0 && (
+              <p className="mt-2 text-xs font-medium text-foreground/80">+ {quickTotal} quick win{quickTotal > 1 ? "s" : ""} today ✨</p>
+            )}
           </div>
         </div>
       </section>
+
+      <QuickWins />
 
       <section className="mt-10">
         <header className="mb-4 flex items-center justify-between">
