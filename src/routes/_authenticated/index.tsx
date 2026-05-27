@@ -33,6 +33,7 @@ function Today() {
             </div>
             <h1 className="mt-4 font-display text-4xl font-semibold text-foreground md:text-5xl">{greeting}</h1>
             <p className="mt-3 text-base text-muted-foreground md:text-lg">{subline}</p>
+            <div className="mt-4"><NotificationPrompt /></div>
           </div>
           <div className="w-full max-w-xs rounded-2xl bg-gradient-blossom p-5 shadow-petal">
             <div className="flex items-center justify-between text-sm">
