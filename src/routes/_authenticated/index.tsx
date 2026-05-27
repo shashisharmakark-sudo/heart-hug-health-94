@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { Sparkles, Heart, Sun } from "lucide-react";
 import { ReminderCard } from "@/components/ReminderCard";
-import { useReminders, warmGreeting, warmSubline } from "@/lib/reminders";
+import { NotificationPrompt } from "@/components/NotificationPrompt";
+import { useReminders, useReminderNotifications, warmGreeting, warmSubline } from "@/lib/reminders";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/_authenticated/")({
 function Today() {
   const { user } = useAuth();
   const { reminders, hydrated, toggleComplete, upcoming, completed, completedToday, total } = useReminders();
+  useReminderNotifications(reminders);
 
   const name = (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0];
   const greeting = useMemo(() => warmGreeting(name), [name]);
@@ -31,6 +33,7 @@ function Today() {
             </div>
             <h1 className="mt-4 font-display text-4xl font-semibold text-foreground md:text-5xl">{greeting}</h1>
             <p className="mt-3 text-base text-muted-foreground md:text-lg">{subline}</p>
+            <div className="mt-4"><NotificationPrompt /></div>
           </div>
           <div className="w-full max-w-xs rounded-2xl bg-gradient-blossom p-5 shadow-petal">
             <div className="flex items-center justify-between text-sm">
