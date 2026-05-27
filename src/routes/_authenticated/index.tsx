@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { Sparkles, Heart, Sun } from "lucide-react";
 import { ReminderCard } from "@/components/ReminderCard";
-import { useReminders, warmGreeting, warmSubline } from "@/lib/reminders";
+import { NotificationPrompt } from "@/components/NotificationPrompt";
+import { useReminders, useReminderNotifications, warmGreeting, warmSubline } from "@/lib/reminders";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/hooks/use-auth";
 
