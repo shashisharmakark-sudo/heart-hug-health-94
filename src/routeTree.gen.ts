@@ -16,7 +16,6 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedWinsRouteImport } from './routes/_authenticated/wins'
 import { Route as AuthenticatedRemindersRouteImport } from './routes/_authenticated/reminders'
 import { Route as AuthenticatedMedicinesRouteImport } from './routes/_authenticated/medicines'
@@ -55,11 +54,6 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
 const AuthenticatedWinsRoute = AuthenticatedWinsRouteImport.update({
   id: '/wins',
   path: '/wins',
@@ -77,7 +71,7 @@ const AuthenticatedMedicinesRoute = AuthenticatedMedicinesRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthenticatedIndexRoute
+  '/': typeof AuthenticatedRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
@@ -89,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/wins': typeof AuthenticatedWinsRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AuthenticatedRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
@@ -98,7 +93,6 @@ export interface FileRoutesByTo {
   '/medicines': typeof AuthenticatedMedicinesRoute
   '/reminders': typeof AuthenticatedRemindersRoute
   '/wins': typeof AuthenticatedWinsRoute
-  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -112,7 +106,6 @@ export interface FileRoutesById {
   '/_authenticated/medicines': typeof AuthenticatedMedicinesRoute
   '/_authenticated/reminders': typeof AuthenticatedRemindersRoute
   '/_authenticated/wins': typeof AuthenticatedWinsRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -129,6 +122,7 @@ export interface FileRouteTypes {
     | '/wins'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/forgot-password'
     | '/login'
     | '/privacy'
@@ -138,7 +132,6 @@ export interface FileRouteTypes {
     | '/medicines'
     | '/reminders'
     | '/wins'
-    | '/'
   id:
     | '__root__'
     | '/_authenticated'
@@ -151,7 +144,6 @@ export interface FileRouteTypes {
     | '/_authenticated/medicines'
     | '/_authenticated/reminders'
     | '/_authenticated/wins'
-    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -215,13 +207,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/wins': {
       id: '/_authenticated/wins'
       path: '/wins'
@@ -250,14 +235,12 @@ interface AuthenticatedRouteChildren {
   AuthenticatedMedicinesRoute: typeof AuthenticatedMedicinesRoute
   AuthenticatedRemindersRoute: typeof AuthenticatedRemindersRoute
   AuthenticatedWinsRoute: typeof AuthenticatedWinsRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedMedicinesRoute: AuthenticatedMedicinesRoute,
   AuthenticatedRemindersRoute: AuthenticatedRemindersRoute,
   AuthenticatedWinsRoute: AuthenticatedWinsRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -276,3 +259,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
