@@ -14,6 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
+      consultations: {
+        Row: {
+          created_at: string
+          doctor_id: string
+          id: string
+          note: string | null
+          patient_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          doctor_id: string
+          id?: string
+          note?: string | null
+          patient_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          doctor_id?: string
+          id?: string
+          note?: string | null
+          patient_id?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      doctor_profiles: {
+        Row: {
+          answers: Json
+          avatar_color: string
+          bio: string | null
+          clinic_address: string | null
+          core_fields: string[]
+          created_at: string
+          experience_years: number
+          fee: number | null
+          full_name: string
+          languages: string[]
+          qualifications: string | null
+          specialty: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answers?: Json
+          avatar_color?: string
+          bio?: string | null
+          clinic_address?: string | null
+          core_fields?: string[]
+          created_at?: string
+          experience_years?: number
+          fee?: number | null
+          full_name: string
+          languages?: string[]
+          qualifications?: string | null
+          specialty: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          avatar_color?: string
+          bio?: string | null
+          clinic_address?: string | null
+          core_fields?: string[]
+          created_at?: string
+          experience_years?: number
+          fee?: number | null
+          full_name?: string
+          languages?: string[]
+          qualifications?: string | null
+          specialty?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       medicines: {
         Row: {
           color: string | null
@@ -24,6 +102,8 @@ export type Database = {
           instructions: string | null
           is_active: boolean
           name: string
+          patient_id: string | null
+          prescribed_by: string | null
           prescription_image_url: string | null
           updated_at: string
           user_id: string
@@ -37,6 +117,8 @@ export type Database = {
           instructions?: string | null
           is_active?: boolean
           name: string
+          patient_id?: string | null
+          prescribed_by?: string | null
           prescription_image_url?: string | null
           updated_at?: string
           user_id: string
@@ -50,7 +132,57 @@ export type Database = {
           instructions?: string | null
           is_active?: boolean
           name?: string
+          patient_id?: string | null
+          prescribed_by?: string | null
           prescription_image_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      patient_profiles: {
+        Row: {
+          address: string | null
+          age: number | null
+          allergies: string | null
+          answers: Json
+          condition: string | null
+          created_at: string
+          emergency_category: string | null
+          emergency_needed: boolean
+          full_name: string
+          gender: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          age?: number | null
+          allergies?: string | null
+          answers?: Json
+          condition?: string | null
+          created_at?: string
+          emergency_category?: string | null
+          emergency_needed?: boolean
+          full_name: string
+          gender?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          age?: number | null
+          allergies?: string | null
+          answers?: Json
+          condition?: string | null
+          created_at?: string
+          emergency_category?: string | null
+          emergency_needed?: boolean
+          full_name?: string
+          gender?: string | null
+          phone?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -139,6 +271,8 @@ export type Database = {
           is_active: boolean
           kind: Database["public"]["Enums"]["reminder_kind"]
           medicine_id: string | null
+          patient_id: string | null
+          prescribed_by: string | null
           repeat: Database["public"]["Enums"]["reminder_repeat"]
           time_of_day: string
           title: string
@@ -153,6 +287,8 @@ export type Database = {
           is_active?: boolean
           kind?: Database["public"]["Enums"]["reminder_kind"]
           medicine_id?: string | null
+          patient_id?: string | null
+          prescribed_by?: string | null
           repeat?: Database["public"]["Enums"]["reminder_repeat"]
           time_of_day?: string
           title: string
@@ -167,6 +303,8 @@ export type Database = {
           is_active?: boolean
           kind?: Database["public"]["Enums"]["reminder_kind"]
           medicine_id?: string | null
+          patient_id?: string | null
+          prescribed_by?: string | null
           repeat?: Database["public"]["Enums"]["reminder_repeat"]
           time_of_day?: string
           title?: string
@@ -183,14 +321,42 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
+      app_role: "patient" | "doctor"
       reminder_kind:
         | "medication"
         | "water"
@@ -327,6 +493,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["patient", "doctor"],
       reminder_kind: [
         "medication",
         "water",
