@@ -159,9 +159,9 @@ function DoctorDashboard() {
           <p className="mt-3 font-display text-xl font-semibold text-ink">My patients</p>
           <p className="text-sm text-muted-foreground">Open a profile to prescribe & set reminders.</p>
         </Link>
-        <Link to="/my-doctor-card" className="hover-lift rounded-3xl border border-border/60 bg-gradient-bloom p-6 text-primary-foreground shadow-petal">
+        <Link to="/onboarding-doctor" className="hover-lift rounded-3xl border border-border/60 bg-gradient-bloom p-6 text-primary-foreground shadow-petal">
           <Sparkles className="h-6 w-6" />
-          <p className="mt-3 font-display text-xl font-semibold">My doctor card</p>
+          <p className="mt-3 font-display text-xl font-semibold">Edit my Doctor Card</p>
           <p className="text-sm text-primary-foreground/90">How patients see you.</p>
         </Link>
       </div>
