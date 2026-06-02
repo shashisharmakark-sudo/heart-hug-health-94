@@ -16,10 +16,17 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedWinsRouteImport } from './routes/_authenticated/wins'
 import { Route as AuthenticatedRemindersRouteImport } from './routes/_authenticated/reminders'
+import { Route as AuthenticatedOnboardingPatientRouteImport } from './routes/_authenticated/onboarding-patient'
+import { Route as AuthenticatedOnboardingDoctorRouteImport } from './routes/_authenticated/onboarding-doctor'
+import { Route as AuthenticatedMyPatientsRouteImport } from './routes/_authenticated/my-patients'
 import { Route as AuthenticatedMedicinesRouteImport } from './routes/_authenticated/medicines'
+import { Route as AuthenticatedFindDoctorRouteImport } from './routes/_authenticated/find-doctor'
+import { Route as AuthenticatedDietChartRouteImport } from './routes/_authenticated/diet-chart'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedPatientIdRouteImport } from './routes/_authenticated/patient.$id'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -55,10 +62,10 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthenticatedRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedWinsRoute = AuthenticatedWinsRouteImport.update({
   id: '/wins',
@@ -70,38 +77,90 @@ const AuthenticatedRemindersRoute = AuthenticatedRemindersRouteImport.update({
   path: '/reminders',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedOnboardingPatientRoute =
+  AuthenticatedOnboardingPatientRouteImport.update({
+    id: '/onboarding-patient',
+    path: '/onboarding-patient',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedOnboardingDoctorRoute =
+  AuthenticatedOnboardingDoctorRouteImport.update({
+    id: '/onboarding-doctor',
+    path: '/onboarding-doctor',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMyPatientsRoute = AuthenticatedMyPatientsRouteImport.update({
+  id: '/my-patients',
+  path: '/my-patients',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedMedicinesRoute = AuthenticatedMedicinesRouteImport.update({
   id: '/medicines',
   path: '/medicines',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedFindDoctorRoute = AuthenticatedFindDoctorRouteImport.update({
+  id: '/find-doctor',
+  path: '/find-doctor',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDietChartRoute = AuthenticatedDietChartRouteImport.update({
+  id: '/diet-chart',
+  path: '/diet-chart',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPatientIdRoute = AuthenticatedPatientIdRouteImport.update({
+  id: '/patient/$id',
+  path: '/patient/$id',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthenticatedIndexRoute
+  '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/diet-chart': typeof AuthenticatedDietChartRoute
+  '/find-doctor': typeof AuthenticatedFindDoctorRoute
   '/medicines': typeof AuthenticatedMedicinesRoute
+  '/my-patients': typeof AuthenticatedMyPatientsRoute
+  '/onboarding-doctor': typeof AuthenticatedOnboardingDoctorRoute
+  '/onboarding-patient': typeof AuthenticatedOnboardingPatientRoute
   '/reminders': typeof AuthenticatedRemindersRoute
   '/wins': typeof AuthenticatedWinsRoute
+  '/patient/$id': typeof AuthenticatedPatientIdRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/diet-chart': typeof AuthenticatedDietChartRoute
+  '/find-doctor': typeof AuthenticatedFindDoctorRoute
   '/medicines': typeof AuthenticatedMedicinesRoute
+  '/my-patients': typeof AuthenticatedMyPatientsRoute
+  '/onboarding-doctor': typeof AuthenticatedOnboardingDoctorRoute
+  '/onboarding-patient': typeof AuthenticatedOnboardingPatientRoute
   '/reminders': typeof AuthenticatedRemindersRoute
   '/wins': typeof AuthenticatedWinsRoute
-  '/': typeof AuthenticatedIndexRoute
+  '/patient/$id': typeof AuthenticatedPatientIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -109,10 +168,16 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/diet-chart': typeof AuthenticatedDietChartRoute
+  '/_authenticated/find-doctor': typeof AuthenticatedFindDoctorRoute
   '/_authenticated/medicines': typeof AuthenticatedMedicinesRoute
+  '/_authenticated/my-patients': typeof AuthenticatedMyPatientsRoute
+  '/_authenticated/onboarding-doctor': typeof AuthenticatedOnboardingDoctorRoute
+  '/_authenticated/onboarding-patient': typeof AuthenticatedOnboardingPatientRoute
   '/_authenticated/reminders': typeof AuthenticatedRemindersRoute
   '/_authenticated/wins': typeof AuthenticatedWinsRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/patient/$id': typeof AuthenticatedPatientIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,23 +189,38 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/sitemap.xml'
+    | '/dashboard'
+    | '/diet-chart'
+    | '/find-doctor'
     | '/medicines'
+    | '/my-patients'
+    | '/onboarding-doctor'
+    | '/onboarding-patient'
     | '/reminders'
     | '/wins'
+    | '/patient/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/forgot-password'
     | '/login'
     | '/privacy'
     | '/reset-password'
     | '/signup'
     | '/sitemap.xml'
+    | '/dashboard'
+    | '/diet-chart'
+    | '/find-doctor'
     | '/medicines'
+    | '/my-patients'
+    | '/onboarding-doctor'
+    | '/onboarding-patient'
     | '/reminders'
     | '/wins'
-    | '/'
+    | '/patient/$id'
   id:
     | '__root__'
+    | '/'
     | '/_authenticated'
     | '/forgot-password'
     | '/login'
@@ -148,13 +228,20 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/sitemap.xml'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/diet-chart'
+    | '/_authenticated/find-doctor'
     | '/_authenticated/medicines'
+    | '/_authenticated/my-patients'
+    | '/_authenticated/onboarding-doctor'
+    | '/_authenticated/onboarding-patient'
     | '/_authenticated/reminders'
     | '/_authenticated/wins'
-    | '/_authenticated/'
+    | '/_authenticated/patient/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
@@ -215,12 +302,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/': {
-      id: '/_authenticated/'
+    '/': {
+      id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/wins': {
       id: '/_authenticated/wins'
@@ -236,6 +323,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRemindersRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/onboarding-patient': {
+      id: '/_authenticated/onboarding-patient'
+      path: '/onboarding-patient'
+      fullPath: '/onboarding-patient'
+      preLoaderRoute: typeof AuthenticatedOnboardingPatientRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/onboarding-doctor': {
+      id: '/_authenticated/onboarding-doctor'
+      path: '/onboarding-doctor'
+      fullPath: '/onboarding-doctor'
+      preLoaderRoute: typeof AuthenticatedOnboardingDoctorRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-patients': {
+      id: '/_authenticated/my-patients'
+      path: '/my-patients'
+      fullPath: '/my-patients'
+      preLoaderRoute: typeof AuthenticatedMyPatientsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/medicines': {
       id: '/_authenticated/medicines'
       path: '/medicines'
@@ -243,21 +351,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMedicinesRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/find-doctor': {
+      id: '/_authenticated/find-doctor'
+      path: '/find-doctor'
+      fullPath: '/find-doctor'
+      preLoaderRoute: typeof AuthenticatedFindDoctorRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/diet-chart': {
+      id: '/_authenticated/diet-chart'
+      path: '/diet-chart'
+      fullPath: '/diet-chart'
+      preLoaderRoute: typeof AuthenticatedDietChartRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/patient/$id': {
+      id: '/_authenticated/patient/$id'
+      path: '/patient/$id'
+      fullPath: '/patient/$id'
+      preLoaderRoute: typeof AuthenticatedPatientIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDietChartRoute: typeof AuthenticatedDietChartRoute
+  AuthenticatedFindDoctorRoute: typeof AuthenticatedFindDoctorRoute
   AuthenticatedMedicinesRoute: typeof AuthenticatedMedicinesRoute
+  AuthenticatedMyPatientsRoute: typeof AuthenticatedMyPatientsRoute
+  AuthenticatedOnboardingDoctorRoute: typeof AuthenticatedOnboardingDoctorRoute
+  AuthenticatedOnboardingPatientRoute: typeof AuthenticatedOnboardingPatientRoute
   AuthenticatedRemindersRoute: typeof AuthenticatedRemindersRoute
   AuthenticatedWinsRoute: typeof AuthenticatedWinsRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedPatientIdRoute: typeof AuthenticatedPatientIdRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDietChartRoute: AuthenticatedDietChartRoute,
+  AuthenticatedFindDoctorRoute: AuthenticatedFindDoctorRoute,
   AuthenticatedMedicinesRoute: AuthenticatedMedicinesRoute,
+  AuthenticatedMyPatientsRoute: AuthenticatedMyPatientsRoute,
+  AuthenticatedOnboardingDoctorRoute: AuthenticatedOnboardingDoctorRoute,
+  AuthenticatedOnboardingPatientRoute: AuthenticatedOnboardingPatientRoute,
   AuthenticatedRemindersRoute: AuthenticatedRemindersRoute,
   AuthenticatedWinsRoute: AuthenticatedWinsRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedPatientIdRoute: AuthenticatedPatientIdRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -265,6 +413,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
@@ -276,13 +425,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

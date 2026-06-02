@@ -1,6 +1,6 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { Heart } from "lucide-react";
+import { Heart, UserRound, Stethoscope } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,18 +10,20 @@ import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/login")({
+  validateSearch: (s: Record<string, unknown>) => ({ role: (s.role as string) === "doctor" ? "doctor" : "patient" }),
   component: LoginPage,
 });
 
 function LoginPage() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { role } = useSearch({ from: "/login" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) navigate({ to: "/", replace: true });
+    if (isAuthenticated) navigate({ to: "/dashboard", replace: true });
   }, [isAuthenticated, navigate]);
 
   const handleEmail = async (e: FormEvent) => {
@@ -31,20 +33,26 @@ function LoginPage() {
     setBusy(false);
     if (error) return toast.error("We couldn't sign you in", { description: error.message });
     toast.success("Welcome back 🌸");
-    navigate({ to: "/", replace: true });
+    navigate({ to: "/dashboard", replace: true });
   };
 
   const handleGoogle = async () => {
     setBusy(true);
-    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    if (res.error) {
-      setBusy(false);
-      toast.error("Google sign-in didn't work", { description: String(res.error) });
-    }
+    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/dashboard" });
+    if (res.error) { setBusy(false); toast.error("Google sign-in didn't work"); }
   };
 
   return (
-    <AuthShell title="Welcome back 🌸" subtitle="We're so glad you're here.">
+    <AuthShell title="Welcome back 🌸" subtitle="Sign in to your Petal portal.">
+      <div className="mb-5 grid grid-cols-2 gap-2 rounded-full bg-secondary p-1">
+        <Link to="/login" search={{ role: "patient" }} className={`flex items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition ${role === "patient" ? "bg-card text-ink shadow-petal" : "text-muted-foreground"}`}>
+          <UserRound className="h-3.5 w-3.5" /> Patient
+        </Link>
+        <Link to="/login" search={{ role: "doctor" }} className={`flex items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition ${role === "doctor" ? "bg-card text-ink shadow-petal" : "text-muted-foreground"}`}>
+          <Stethoscope className="h-3.5 w-3.5" /> Doctor
+        </Link>
+      </div>
+
       <form onSubmit={handleEmail} className="space-y-4">
         <div>
           <Label htmlFor="email">Email</Label>
@@ -58,7 +66,7 @@ function LoginPage() {
           <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1.5" />
         </div>
         <Button type="submit" disabled={busy} className="w-full rounded-full bg-gradient-bloom shadow-petal hover:opacity-95">
-          {busy ? "A moment…" : "Sign in"}
+          {busy ? "A moment…" : `Sign in as ${role}`}
         </Button>
       </form>
 
@@ -71,7 +79,7 @@ function LoginPage() {
       </Button>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        New here? <Link to="/signup" className="font-medium text-primary hover:underline">Create your space</Link>
+        New here? <Link to="/signup" search={{ role }} className="font-medium text-primary hover:underline">Create your space</Link>
       </p>
     </AuthShell>
   );
@@ -85,7 +93,7 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-bloom shadow-petal">
             <Heart className="h-5 w-5 text-primary-foreground" fill="currentColor" />
           </div>
-          <h1 className="mt-4 font-display text-3xl font-semibold text-foreground">{title}</h1>
+          <h1 className="mt-4 font-display text-3xl font-semibold text-ink">{title}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
         </div>
         <div className="rounded-3xl border border-border/60 bg-card/80 p-6 shadow-soft backdrop-blur md:p-8">
