@@ -24,6 +24,7 @@ import { Route as AuthenticatedOnboardingDoctorRouteImport } from './routes/_aut
 import { Route as AuthenticatedMyPatientsRouteImport } from './routes/_authenticated/my-patients'
 import { Route as AuthenticatedMedicinesRouteImport } from './routes/_authenticated/medicines'
 import { Route as AuthenticatedFindDoctorRouteImport } from './routes/_authenticated/find-doctor'
+import { Route as AuthenticatedEmergencyCareRouteImport } from './routes/_authenticated/emergency-care'
 import { Route as AuthenticatedDietChartRouteImport } from './routes/_authenticated/diet-chart'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedPatientIdRouteImport } from './routes/_authenticated/patient.$id'
@@ -104,6 +105,12 @@ const AuthenticatedFindDoctorRoute = AuthenticatedFindDoctorRouteImport.update({
   path: '/find-doctor',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedEmergencyCareRoute =
+  AuthenticatedEmergencyCareRouteImport.update({
+    id: '/emergency-care',
+    path: '/emergency-care',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedDietChartRoute = AuthenticatedDietChartRouteImport.update({
   id: '/diet-chart',
   path: '/diet-chart',
@@ -130,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/diet-chart': typeof AuthenticatedDietChartRoute
+  '/emergency-care': typeof AuthenticatedEmergencyCareRoute
   '/find-doctor': typeof AuthenticatedFindDoctorRoute
   '/medicines': typeof AuthenticatedMedicinesRoute
   '/my-patients': typeof AuthenticatedMyPatientsRoute
@@ -149,6 +157,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/diet-chart': typeof AuthenticatedDietChartRoute
+  '/emergency-care': typeof AuthenticatedEmergencyCareRoute
   '/find-doctor': typeof AuthenticatedFindDoctorRoute
   '/medicines': typeof AuthenticatedMedicinesRoute
   '/my-patients': typeof AuthenticatedMyPatientsRoute
@@ -170,6 +179,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/diet-chart': typeof AuthenticatedDietChartRoute
+  '/_authenticated/emergency-care': typeof AuthenticatedEmergencyCareRoute
   '/_authenticated/find-doctor': typeof AuthenticatedFindDoctorRoute
   '/_authenticated/medicines': typeof AuthenticatedMedicinesRoute
   '/_authenticated/my-patients': typeof AuthenticatedMyPatientsRoute
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/dashboard'
     | '/diet-chart'
+    | '/emergency-care'
     | '/find-doctor'
     | '/medicines'
     | '/my-patients'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/dashboard'
     | '/diet-chart'
+    | '/emergency-care'
     | '/find-doctor'
     | '/medicines'
     | '/my-patients'
@@ -230,6 +242,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_authenticated/dashboard'
     | '/_authenticated/diet-chart'
+    | '/_authenticated/emergency-care'
     | '/_authenticated/find-doctor'
     | '/_authenticated/medicines'
     | '/_authenticated/my-patients'
@@ -358,6 +371,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFindDoctorRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/emergency-care': {
+      id: '/_authenticated/emergency-care'
+      path: '/emergency-care'
+      fullPath: '/emergency-care'
+      preLoaderRoute: typeof AuthenticatedEmergencyCareRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/diet-chart': {
       id: '/_authenticated/diet-chart'
       path: '/diet-chart'
@@ -385,6 +405,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDietChartRoute: typeof AuthenticatedDietChartRoute
+  AuthenticatedEmergencyCareRoute: typeof AuthenticatedEmergencyCareRoute
   AuthenticatedFindDoctorRoute: typeof AuthenticatedFindDoctorRoute
   AuthenticatedMedicinesRoute: typeof AuthenticatedMedicinesRoute
   AuthenticatedMyPatientsRoute: typeof AuthenticatedMyPatientsRoute
@@ -398,6 +419,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDietChartRoute: AuthenticatedDietChartRoute,
+  AuthenticatedEmergencyCareRoute: AuthenticatedEmergencyCareRoute,
   AuthenticatedFindDoctorRoute: AuthenticatedFindDoctorRoute,
   AuthenticatedMedicinesRoute: AuthenticatedMedicinesRoute,
   AuthenticatedMyPatientsRoute: AuthenticatedMyPatientsRoute,
@@ -425,3 +447,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

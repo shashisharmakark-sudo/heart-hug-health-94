@@ -1,13 +1,12 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Heart } from "lucide-react";
+import { ReminderAlarm } from "@/components/ReminderAlarm";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
 });
-
-import { Outlet } from "@tanstack/react-router";
 
 function AuthenticatedLayout() {
   const { isAuthenticated, loading } = useAuth();
@@ -32,5 +31,10 @@ function AuthenticatedLayout() {
     );
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <ReminderAlarm />
+    </>
+  );
 }

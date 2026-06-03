@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Bell, Sparkles, Shield, Pill, Search, Salad, Users, UserRound } from "lucide-react";
+import { Home, Bell, Sparkles, Shield, Pill, Search, Salad, Users, UserRound, ShieldAlert } from "lucide-react";
 import { useRole } from "@/lib/role";
 
 const PATIENT = [
@@ -7,6 +7,7 @@ const PATIENT = [
   { title: "Find a doctor", url: "/find-doctor", icon: Search },
   { title: "Medicines", url: "/medicines", icon: Pill },
   { title: "Reminders", url: "/reminders", icon: Bell },
+  { title: "Emergency care", url: "/emergency-care", icon: ShieldAlert },
   { title: "Diet chart", url: "/diet-chart", icon: Salad },
   { title: "Small wins", url: "/wins", icon: Sparkles },
   { title: "Privacy", url: "/privacy", icon: Shield },
