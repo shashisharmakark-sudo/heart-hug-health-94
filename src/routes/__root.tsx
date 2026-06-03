@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { TopTabs } from "@/components/TopTabs";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -98,9 +99,12 @@ function RootComponent() {
           <div className="flex min-h-screen w-full">
             <AppSidebar />
             <div className="flex flex-1 flex-col">
-              <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b border-border/60 bg-background/70 px-4 backdrop-blur">
-                <SidebarTrigger className="text-foreground" />
-                <span className="text-sm text-muted-foreground">Petal Health Portal</span>
+              <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
+                <div className="flex h-14 items-center gap-2 px-4">
+                  <SidebarTrigger className="text-foreground" />
+                  <span className="text-sm font-medium text-ink">Petal Health Portal</span>
+                </div>
+                <TopTabs />
               </header>
               <main className="flex-1"><Outlet /></main>
             </div>
