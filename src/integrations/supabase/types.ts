@@ -92,6 +92,63 @@ export type Database = {
         }
         Relationships: []
       }
+      emergency_profiles: {
+        Row: {
+          alert_popups: boolean
+          alert_sound: boolean
+          blood_group: string | null
+          category: string
+          conditions: string | null
+          created_at: string
+          guardian_email: string | null
+          guardian_name: string
+          guardian_phone: string
+          guardian_relation: string | null
+          id: string
+          notes: string | null
+          secondary_guardian_name: string | null
+          secondary_guardian_phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alert_popups?: boolean
+          alert_sound?: boolean
+          blood_group?: string | null
+          category: string
+          conditions?: string | null
+          created_at?: string
+          guardian_email?: string | null
+          guardian_name: string
+          guardian_phone: string
+          guardian_relation?: string | null
+          id?: string
+          notes?: string | null
+          secondary_guardian_name?: string | null
+          secondary_guardian_phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          alert_popups?: boolean
+          alert_sound?: boolean
+          blood_group?: string | null
+          category?: string
+          conditions?: string | null
+          created_at?: string
+          guardian_email?: string | null
+          guardian_name?: string
+          guardian_phone?: string
+          guardian_relation?: string | null
+          id?: string
+          notes?: string | null
+          secondary_guardian_name?: string | null
+          secondary_guardian_phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       medicines: {
         Row: {
           color: string | null
