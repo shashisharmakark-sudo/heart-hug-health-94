@@ -44,13 +44,19 @@ function LoginPage() {
 
   return (
     <AuthShell title="Welcome back 🌸" subtitle="Sign in to your Petal portal.">
-      <div className="mb-5 grid grid-cols-2 gap-2 rounded-full bg-secondary p-1">
-        <Link to="/login" search={{ role: "patient" }} className={`flex items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition ${role === "patient" ? "bg-card text-ink shadow-petal" : "text-muted-foreground"}`}>
-          <UserRound className="h-3.5 w-3.5" /> Patient
-        </Link>
-        <Link to="/login" search={{ role: "doctor" }} className={`flex items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition ${role === "doctor" ? "bg-card text-ink shadow-petal" : "text-muted-foreground"}`}>
-          <Stethoscope className="h-3.5 w-3.5" /> Doctor
-        </Link>
+      <div className="mb-6">
+        <p className="mb-3 text-center text-xs font-semibold uppercase tracking-wider text-ink">Step 1 · Who's signing in?</p>
+        <div className="grid grid-cols-2 gap-3">
+          <Link to="/login" search={{ role: "patient" }} className={`hover-lift flex flex-col items-center gap-1.5 rounded-2xl border p-4 text-center transition ${role === "patient" ? "border-primary bg-gradient-blossom text-ink shadow-petal" : "border-border bg-card text-muted-foreground"}`}>
+            <UserRound className="h-6 w-6" />
+            <span className="text-sm font-semibold">Login as Patient</span>
+          </Link>
+          <Link to="/login" search={{ role: "doctor" }} className={`hover-lift flex flex-col items-center gap-1.5 rounded-2xl border p-4 text-center transition ${role === "doctor" ? "border-primary bg-gradient-ink text-primary-foreground shadow-petal" : "border-border bg-card text-muted-foreground"}`}>
+            <Stethoscope className="h-6 w-6" />
+            <span className="text-sm font-semibold">Login as Doctor</span>
+          </Link>
+        </div>
+        <p className="mt-3 text-center text-xs font-semibold uppercase tracking-wider text-ink">Step 2 · Your credentials</p>
       </div>
 
       <form onSubmit={handleEmail} className="space-y-4">
