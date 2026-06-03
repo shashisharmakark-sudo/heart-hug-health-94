@@ -126,4 +126,21 @@
   .hover-lift:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
   .hover-glow { transition: box-shadow .25s ease, transform .25s ease; }
   .hover-glow:hover { box-shadow: var(--shadow-petal); transform: translateY(-2px); }
+
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--bloom) 55%, transparent); } 70% { box-shadow: 0 0 0 18px color-mix(in oklab, var(--bloom) 0%, transparent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+  @keyframes shimmer-x { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  @keyframes blob { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(20px,-30px) scale(1.1); } 66% { transform: translate(-25px,15px) scale(.95); } }
+  .animate-floaty { animation: floaty 3.5s ease-in-out infinite; }
+  .animate-pulse-ring { animation: pulse-ring 1.8s cubic-bezier(.4,0,.6,1) infinite; }
+  .animate-blob { animation: blob 14s ease-in-out infinite; }
+  .shimmer-text {
+    background: linear-gradient(90deg, var(--ink) 0%, var(--bloom) 40%, var(--ink) 80%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: shimmer-x 4s linear infinite;
+  }
+  .step-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--border); transition: all .3s ease; }
+  .step-dot.active { background: var(--bloom); width: 28px; box-shadow: var(--shadow-petal); }
 }
+
