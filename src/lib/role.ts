@@ -45,8 +45,11 @@ export function useRole() {
   return { role, hasProfile, loading, refresh };
 }
 
-export async function setRoleForUser(userId: string, role: Role) {
-  // delete prior different role, insert new
-  await supabase.from("user_roles").delete().eq("user_id", userId);
-  await supabase.from("user_roles").insert({ user_id: userId, role });
+import { assignInitialRole } from "./role.functions";
+
+export async function setRoleForUser(_userId: string, role: Role) {
+  // Role assignment is enforced server-side; users cannot self-assign roles
+  // via the database. The server function only allows patient/doctor and
+  // refuses to overwrite an existing role.
+  await assignInitialRole({ data: { role } });
 }
