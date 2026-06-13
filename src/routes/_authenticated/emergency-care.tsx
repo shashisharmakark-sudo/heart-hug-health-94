@@ -70,6 +70,28 @@ function EmergencyCare() {
   };
   const prev = () => setStep((s) => Math.max(0, s - 1));
 
+  const sendEmail = () => {
+    const cat = CATEGORIES.find((c) => c.value === form.category)?.label ?? form.category;
+    const lines = [
+      `EMERGENCY CARE FORM SUBMISSION`,
+      ``,
+      `Category: ${cat}`,
+      `Blood group: ${form.blood_group || "—"}`,
+      `Known conditions: ${form.conditions || "—"}`,
+      `Notes: ${form.notes || "—"}`,
+      ``,
+      `Guardian: ${form.guardian_name} (${form.guardian_relation || "—"})`,
+      `Guardian phone: ${form.guardian_phone}`,
+      `Guardian email: ${form.guardian_email || "—"}`,
+      ``,
+      `Backup contact: ${form.secondary_guardian_name || "—"}`,
+      `Backup phone: ${form.secondary_guardian_phone || "—"}`,
+    ].join("\n");
+    const subject = `Emergency Care Form — ${form.guardian_name || "Patient"}`;
+    const url = `mailto:rudrakshisharmabtech@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines)}`;
+    window.location.href = url;
+  };
+
   const submit = async () => {
     if (!user) return;
     if (!valid0 || !valid1) return toast.error("Please complete required fields");
@@ -81,7 +103,8 @@ function EmergencyCare() {
     }, { onConflict: "user_id" });
     setBusy(false);
     if (error) return toast.error("Couldn't save", { description: error.message });
-    toast.success("Emergency profile saved — we've got you 💙");
+    toast.success("Emergency profile saved — sending email 💙");
+    sendEmail();
     setStep(3);
   };
 
