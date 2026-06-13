@@ -6,6 +6,8 @@ import { matchDoctors } from "@/lib/matching";
 import { DoctorCard } from "@/components/DoctorCard";
 import { SPECIALTIES } from "@/lib/questions";
 import { toast } from "sonner";
+import { NearMeMap } from "@/components/NearMeMap";
+import { MapPin } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/find-doctor")({
   component: FindDoctor,
@@ -19,6 +21,7 @@ function FindDoctor() {
   const [specFilter, setSpecFilter] = useState<string>("All");
   const [minExp, setMinExp] = useState<number>(0);
   const [query, setQuery] = useState("");
+  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -71,7 +74,23 @@ function FindDoctor() {
           className="rounded-md border border-input bg-transparent px-3 py-1.5 text-sm">
           {[0, 2, 5, 10, 20].map((n) => <option key={n} value={n}>{n}+ years exp</option>)}
         </select>
+        <button
+          onClick={() => setShowMap(true)}
+          className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-bloom px-4 py-1.5 text-sm font-medium text-primary-foreground shadow-petal transition-all hover:scale-[1.03] hover:shadow-lg"
+        >
+          <MapPin className="h-4 w-4 animate-bounce" />
+          Doctors near me
+          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+        </button>
       </div>
+
+      {showMap && (
+        <NearMeMap
+          doctors={results.map((r) => r.doctor)}
+          onClose={() => setShowMap(false)}
+          onRequest={(id) => { requestConsultation(id); setShowMap(false); }}
+        />
+      )}
 
       {loading ? (
         <p className="mt-10 text-muted-foreground">Finding doctors…</p>
