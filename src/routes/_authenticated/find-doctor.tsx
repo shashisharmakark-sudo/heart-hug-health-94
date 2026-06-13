@@ -21,6 +21,7 @@ function FindDoctor() {
   const [specFilter, setSpecFilter] = useState<string>("All");
   const [minExp, setMinExp] = useState<number>(0);
   const [query, setQuery] = useState("");
+  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
     if (!user) return;
