@@ -6,6 +6,8 @@ import { matchDoctors } from "@/lib/matching";
 import { DoctorCard } from "@/components/DoctorCard";
 import { SPECIALTIES } from "@/lib/questions";
 import { toast } from "sonner";
+import { NearMeMap } from "@/components/NearMeMap";
+import { MapPin } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/find-doctor")({
   component: FindDoctor,
