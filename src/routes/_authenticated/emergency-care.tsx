@@ -133,6 +133,23 @@ function EmergencyCare() {
           ))}
           <span className="ml-3 text-xs text-muted-foreground">Step {Math.min(step + 1, 4)} of 4</span>
         </div>
+
+        {/* Emergency Call CTA */}
+        <a
+          href="tel:7799178907"
+          className="group relative mt-6 flex w-full items-center justify-center gap-3 overflow-hidden rounded-3xl bg-gradient-to-r from-red-600 via-rose-500 to-red-600 px-6 py-5 text-lg font-bold text-white shadow-[0_10px_40px_-10px_rgba(225,29,72,0.7)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_60px_-10px_rgba(225,29,72,0.9)] active:scale-[0.99]"
+          aria-label="Emergency call"
+        >
+          <span className="absolute inset-0 animate-pulse-ring rounded-3xl ring-4 ring-red-400/40" />
+          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+          <span className="absolute -left-2 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur transition-transform group-hover:scale-110">
+            <PhoneCall className="h-6 w-6 animate-bounce" />
+          </span>
+          <span className="relative pl-10 tracking-wide drop-shadow">EMERGENCY CALL</span>
+          <span className="relative ml-2 rounded-full bg-white/25 px-3 py-1 text-sm font-semibold backdrop-blur">
+            7799178907
+          </span>
+        </a>
       </header>
 
       <div className={`relative mt-8 rounded-3xl border border-border/60 bg-card/90 p-6 shadow-soft backdrop-blur transition-all duration-500 ${enter ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}>
